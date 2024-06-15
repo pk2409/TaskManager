@@ -21,17 +21,20 @@ async function generateNewShortUrl(request, response) {
     redirectUrl: body.url,
     visitHistory: [],
   });
+  return response.render("home", {
+    id: shortId,
+  });
   return response.json({ id: shortId });
 }
 
-async function handleGetAnalytics(request,response){
-
+async function handleGetAnalytics(request, response) {
   const shortId = request.params.shortId;
-  await URL.findOne({shortId});  //search for shortId
-  return response.json({totalClicks:result.vistHistory.length,analytics:result.visitHistory}) 
+  await URL.findOne({ shortId }); //search for shortId
+  return response.json({
+    totalClicks: result.vistHistory.length,
+    analytics: result.visitHistory,
+  });
   //total number of clicks will be the length of the visitHistory
-  
 }
 
-
-module.exports = { generateNewShortUrl , handleGetAnalytics};
+module.exports = { generateNewShortUrl, handleGetAnalytics };
