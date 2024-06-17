@@ -36,10 +36,13 @@ app.get("/:shortId", async (request, response) => {
     //in return it gives us original entry
   );
   //then we redirect the user
-//   response.redirect(entry.redirectUrl);
+  //   response.redirect(entry.redirectUrl);
 });
 app.use(express.urlencoded({ extended: false })); //to support data coming from the form which is not in json type
 app.use("/url", urlRoute);
+
+const userRoute = require("./routes/user");
+app.use("/user", userRoute);
 
 app.use("/", staticRoute);
 
