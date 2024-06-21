@@ -20,6 +20,7 @@ async function generateNewShortUrl(request, response) {
     shortId: shortId,
     redirectUrl: body.url,
     visitHistory: [],
+    createdBy: request.user._id,
   });
   return response.render("home", {
     id: shortId,

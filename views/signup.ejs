@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <style>
         body {
@@ -10,16 +11,18 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sign Up</title>
 </head>
+
 <body>
-    <form>
+    <form action="/user" method="post">
         <label>Full Name</label>
         <input type="text" required name="name">
         <label>Email</label>
-        <input type="text" required email="email">
+        <input type="text" required name="email">
         <label>Password</label>
-        <input type="text" required password="password">
+        <input type="text" required name="password">
     </form>
 
     <button>SIGN UP</button>
 </body>
+
 </html>

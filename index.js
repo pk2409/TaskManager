@@ -1,8 +1,14 @@
+const { v4: uuidv4 } = require("uuid");
+
+const cookieParser = require("cookie-parser");
+
 const express = require("express");
 const urlRoute = require("./routes/url");
 const { connectToMongoDb } = require("./connect");
 
 const staticRoute = require("./routes/staticrouter");
+
+const { restrictToLoggedInUserOnly , checkAuth} = require("./middlewares/auth");
 
 const path = require("path");
 
@@ -17,6 +23,7 @@ app.set("views", path.resolve("./views")); //telling express where to find views
 // app.arguments("/url", urlRoute); //if ends with nay url , we have to use urlroute
 
 app.use(express.json()); // to read incoming json data
+app.use(cookieParser());
 
 //for dynamically ensuring short id redirects to original link
 app.get("/:shortId", async (request, response) => {
@@ -39,12 +46,12 @@ app.get("/:shortId", async (request, response) => {
   //   response.redirect(entry.redirectUrl);
 });
 app.use(express.urlencoded({ extended: false })); //to support data coming from the form which is not in json type
-app.use("/url", urlRoute);
+app.use("/url",restrictToLoggedInUserOnly,urlRoute);
 
 const userRoute = require("./routes/user");
 app.use("/user", userRoute);
 
-app.use("/", staticRoute);
+app.use("/", checkAuth, staticRoute);
 
 app.get("/test", async (request, response) => {
   const allUrls = await URL.find({});
